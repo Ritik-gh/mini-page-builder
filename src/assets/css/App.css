@@ -81,11 +81,19 @@
   opacity: 0.5;
 }
 
+.custom-modal label + p {
+  color: var(--bs-danger);
+  margin-top: 4px;
+}
+
+.custom-modal form > article {
+  margin-bottom: 32px;
+}
+
 label {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin-bottom: 32px;
   font-size: 14px;
   font-weight: 400;
 }
@@ -120,4 +128,12 @@ button.active {
   background-color: white;
   color: #0044c1;
   border-color: #0044c1;
+}
+
+.added-element {
+  position: absolute;
+}
+
+.added-element:focus {
+  outline: 1px solid var(--bs-red);
 }
