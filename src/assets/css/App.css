@@ -1,0 +1,125 @@
+.app {
+  display: flex;
+  min-height: 100vh;
+  background-color: #e5e5e5;
+}
+
+.app > main {
+  flex-grow: 1;
+}
+
+.app > aside {
+  flex: 0 0 max(200px, 20%);
+  background-color: #2d2d2d;
+  color: white;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  padding: 24px;
+}
+
+.app > aside > section {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.app > aside > h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.app > aside > section > article {
+  font-size: 16px;
+  font-weight: 300;
+  border-radius: 4px;
+  background-color: white;
+  color: black;
+  padding: 0 12px 0 32px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.app > aside > section > article::before {
+  content: url(../images/grip-vertical.svg);
+  position: absolute;
+  top: 58%;
+  left: 12px;
+  transform: translate(0, -50%);
+}
+
+.custom-modal .modal-content {
+  padding: 16px;
+  max-width: 424px;
+}
+
+.custom-modal header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.custom-modal header h1 {
+  font-size: 21px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.custom-modal header svg {
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.custom-modal header svg:hover path {
+  opacity: 0.5;
+}
+
+.custom-modal label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 32px;
+}
+
+.custom-modal label p {
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.custom-modal label input {
+  border: 1px solid #d9d9d9;
+  outline: none;
+  padding: 0 8px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.custom-modal button {
+  background-color: #0044c1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 16px;
+  outline: none;
+  border: 1px solid #0044c1;
+  color: white;
+  transition: all 0.3s;
+}
+
+.custom-modal button:active,
+.custom-modal button:hover,
+.custom-modal button.active {
+  background-color: white;
+  color: #0044c1;
+  border-color: #0044c1;
+}
