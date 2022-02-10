@@ -42,6 +42,7 @@
   display: flex;
   align-items: center;
   position: relative;
+  cursor: grab;
 }
 
 .app > aside > section > article::before {
