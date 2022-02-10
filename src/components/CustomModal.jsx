@@ -17,23 +17,23 @@ const CustomModal = (props) => {
         </header>
         <main>
           <label>
-            <p>Text</p>
+            Text
             <input type="text" />
           </label>
           <label>
-            <p>X</p>
+            X
             <input type="text" />
           </label>
           <label>
-            <p>Y</p>
+            Y
             <input type="text" />
           </label>
           <label>
-            <p>Font Size</p>
+            Font Size
             <input type="text" />
           </label>
           <label>
-            <p>Font Weight</p>
+            Font Weight
             <input type="text" />
           </label>
         </main>

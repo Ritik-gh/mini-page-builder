@@ -8,10 +8,13 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const mainRef = useRef();
 
+  // Define elements to be used as blocks
+  const elements = ["Label", "Input", "Button"];
+
   function handleDragStart(e) {
     console.log("drag started");
     // set the sharable data on drop event
-    e.dataTransfer.setData("element", e.target.nodeName);
+    e.dataTransfer.setData("element", e.target.innerText);
   }
 
   useEffect(() => {
@@ -19,7 +22,7 @@ function App() {
       // disable the browser's default actions, like opening the url, file in case it's one
       e.preventDefault();
       // get the sharable data
-      console.log(e.dataTransfer.getData("element"));
+      console.log(e.dataTransfer.getData("element"), e.x, e.y);
     }
     function enableDrag(e) {
       // make the element droppable, by default most of the elements are not droppable
@@ -36,15 +39,15 @@ function App() {
         <aside>
           <h1>BLOCKS</h1>
           <section>
-            <article draggable={true} onDragStart={handleDragStart}>
-              Label
-            </article>
-            <article draggable={true} onDragStart={handleDragStart}>
-              Input
-            </article>
-            <article draggable={true} onDragStart={handleDragStart}>
-              Button
-            </article>
+            {elements.map((element) => (
+              <article
+                draggable={true}
+                onDragStart={handleDragStart}
+                key={element}
+              >
+                {element}
+              </article>
+            ))}
           </section>
         </aside>
       </div>
