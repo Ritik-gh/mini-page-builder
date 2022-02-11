@@ -117,6 +117,7 @@ button {
   height: 34px;
   padding: 0 16px;
   outline: none;
+  outline-offset: 8px;
   border: 1px solid #0044c1;
   color: white;
   transition: all 0.3s;
@@ -135,6 +136,6 @@ button.active {
 }
 
 .added-element.focus {
-  outline: 2px solid var(--bs-red);
+  outline: 1px solid var(--bs-red) !important;
   outline-offset: 8px;
 }

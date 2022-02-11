@@ -65,7 +65,7 @@ function App() {
       }
     }
     function handleKeyUp(e) {
-      const focusedElement = document.querySelector(".added-element");
+      const focusedElement = document.querySelector(".added-element.focus");
       if (focusedElement) {
         if (e.key === "Enter") {
           console.log("Enter pressed");
