@@ -64,9 +64,21 @@ function App() {
         e.target.classList.add("focus");
       }
     }
+    function handleKeyUp(e) {
+      const focusedElement = document.querySelector(".added-element");
+      if (focusedElement) {
+        if (e.key === "Enter") {
+          console.log("Enter pressed");
+        } else if (e.key === "Delete") {
+          console.log("delete pressed");
+          deleteElement(focusedElement);
+        }
+      }
+    }
     mainRef.current.addEventListener("drop", handleDrop);
     mainRef.current.addEventListener("dragover", enableDrag);
     mainRef.current.addEventListener("mousedown", handleClick);
+    window.addEventListener("keyup", handleKeyUp);
   }, []);
 
   function createAddedElementsHTML() {

@@ -15,12 +15,16 @@ const useElementsStorage = () => {
     }));
   }
   function deleteElement(element) {
+    console.log("delete function", elements);
     setElements((elements) => {
-      delete elements[element.id];
-      return elements;
+      const copyOfElements = elements;
+      delete copyOfElements[element.id];
+      return { ...copyOfElements };
     });
+    element.remove();
   }
   useEffect(() => {
+    console.log("elements updated", elements);
     window.localStorage.elements = JSON.stringify(elements);
   }, [elements]);
   return [elements, setElement, deleteElement];
