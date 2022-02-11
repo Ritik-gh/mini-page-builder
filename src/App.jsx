@@ -44,6 +44,7 @@ function App() {
         if (element) {
           element.style.top = e.y + "px";
           element.style.left = e.x + "px";
+          element.className = "added-element";
           setElement(element);
         }
       }
@@ -52,8 +53,20 @@ function App() {
       // allow the drop event for the element, by default most of the elements do not allow drop
       e.preventDefault();
     }
+    function handleClick(e) {
+      const focusedElement = mainRef.current.querySelector(
+        ".added-element.focus"
+      );
+      if (focusedElement && e.target !== focusedElement) {
+        focusedElement.classList.remove("focus");
+      }
+      if (e.target.classList.contains("added-element")) {
+        e.target.classList.add("focus");
+      }
+    }
     mainRef.current.addEventListener("drop", handleDrop);
     mainRef.current.addEventListener("dragover", enableDrag);
+    mainRef.current.addEventListener("mousedown", handleClick);
   }, []);
 
   function createAddedElementsHTML() {
@@ -72,8 +85,6 @@ function App() {
       element.ondragstart = function (e) {
         handleElementDragStart(e, element);
       };
-      element.onfocus = element.classList.toggle("focus");
-      element.onblur = element.classList.toggle("focus");
     });
   }, [elements]);
 
@@ -81,7 +92,7 @@ function App() {
     <>
       <CustomModal
         show={showModal}
-        closeFunc={setShowModal}
+        toggleFunc={setShowModal}
         name={name}
         x={x}
         y={y}

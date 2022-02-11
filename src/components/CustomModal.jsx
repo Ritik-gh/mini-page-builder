@@ -5,7 +5,7 @@ import useElementsStorage from "../customHooks/useElementsStorage";
 import { handleElementDragStart } from "../helper";
 
 const CustomModal = (props) => {
-  const { show, closeFunc, name, x, y, setX, setY } = props;
+  const { show, toggleFunc, name, x, y, setX, setY } = props;
 
   const [text, setText] = useState("");
   const [fontSize, setFontSize] = useState("");
@@ -25,7 +25,7 @@ const CustomModal = (props) => {
   function handleHide() {
     clearValues();
     setSubmitted(false);
-    closeFunc(false);
+    toggleFunc(false);
   }
 
   function handleSubmit(e) {
@@ -61,7 +61,7 @@ const CustomModal = (props) => {
 
       // add the element to the droppped position
       main.appendChild(element);
-      closeFunc(false);
+      toggleFunc(false);
       setSubmitted(false);
     }
   }
@@ -77,7 +77,7 @@ const CustomModal = (props) => {
       >
         <header>
           <h1>Edit {name}</h1>
-          <CloseIcon onClick={() => closeFunc(false)} />
+          <CloseIcon onClick={() => toggleFunc(false)} />
         </header>
         <main>
           <form onSubmit={handleSubmit}>
