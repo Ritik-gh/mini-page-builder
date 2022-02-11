@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { ReactComponent as CloseIcon } from "../assets/images/close.svg";
 import useElementsStorage from "../customHooks/useElementsStorage";
+import { handleElementDragStart } from "../helper";
 
 const CustomModal = (props) => {
   const { show, closeFunc, name, x, y, setX, setY } = props;
@@ -11,7 +12,7 @@ const CustomModal = (props) => {
   const [fontWeight, setFontWeight] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const [elements, AddElement] = useElementsStorage();
+  const [elements, setElement] = useElementsStorage();
 
   function clearValues() {
     setText("");
@@ -32,10 +33,10 @@ const CustomModal = (props) => {
       const element = document.createElement(name);
       const main = document.querySelector("main");
 
-      element.id = Date.now();
+      element.id = `addedElement${Date.now()}`;
       element.className = "added-element";
-      if (text.toUpperCase() === "INPUT") {
-        element.value = text;
+      if (name.toUpperCase() === "INPUT") {
+        element.placeholder = text;
       } else {
         element.innerText = text;
       }
@@ -47,12 +48,12 @@ const CustomModal = (props) => {
 
       // add drag start event listener to enable drag after creation as well
       element.ondragstart = function (e) {
-        console.log("drag started for already added element", e);
+        handleElementDragStart(e, element);
       };
 
       clearValues();
 
-      AddElement(element);
+      setElement(element);
 
       // add the element to the droppped position
       main.appendChild(element);
@@ -77,6 +78,7 @@ const CustomModal = (props) => {
                   type="text"
                   value={text}
                   onChange={(e) => setText(e.target.value)}
+                  autoFocus
                 />
               </label>
               {submitted && !text && <p>Please enter text</p>}

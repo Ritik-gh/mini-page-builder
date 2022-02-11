@@ -8,16 +8,22 @@ const useElementsStorage = () => {
     }
     return storedElements;
   });
-  function AddElement(element) {
+  function setElement(element) {
     setElements((elements) => ({
       ...elements,
       [element.id]: element.outerHTML,
     }));
   }
+  function deleteElement(element) {
+    setElements((elements) => {
+      delete elements[element.id];
+      return elements;
+    });
+  }
   useEffect(() => {
     window.localStorage.elements = JSON.stringify(elements);
   }, [elements]);
-  return [elements, AddElement];
+  return [elements, setElement, deleteElement];
 };
 
 export default useElementsStorage;
