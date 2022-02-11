@@ -24,21 +24,21 @@ function App() {
     console.log("drag started", e);
     // set the sharable data on drop event
     e.dataTransfer.setData("element", e.target.innerText);
-    e.dataTransfer.setData("class", e.target.className);
+    e.dataTransfer.setData("type", e.target.dataset.type);
   }
 
   useEffect(() => {
     function handleDrop(e) {
       // disable the browser's default actions, like opening the url, file in case it's one
       e.preventDefault();
-      console.log(e.dataTransfer.getData("class"), e.x, e.y);
-      const elementClass = e.dataTransfer.getData("class");
-      if (elementClass === "element-block") {
+      console.log(e.dataTransfer.getData("type"), e.x, e.y);
+      const elementType = e.dataTransfer.getData("type");
+      if (elementType === "elementBlock") {
         setName(e.dataTransfer.getData("element"));
         setX(e.x);
         setY(e.y);
         setShowModal(true);
-      } else if (elementClass === "added-element") {
+      } else if (elementType === "addedElement") {
         const id = e.dataTransfer.getData("id");
         const element = document.querySelector(`#${id}`);
         if (element) {
@@ -68,9 +68,12 @@ function App() {
 
   useEffect(() => {
     mainRef.current.querySelectorAll(".added-element").forEach((element) => {
+      // add drag start event listener to enable drag after creation as well
       element.ondragstart = function (e) {
         handleElementDragStart(e, element);
       };
+      element.onfocus = element.classList.toggle("focus");
+      element.onblur = element.classList.toggle("focus");
     });
   }, [elements]);
 
@@ -99,6 +102,7 @@ function App() {
                 onDragStart={handleBlockDragStart}
                 key={element}
                 className="element-block"
+                data-type="elementBlock"
               >
                 {element}
               </article>

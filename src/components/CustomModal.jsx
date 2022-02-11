@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { ReactComponent as CloseIcon } from "../assets/images/close.svg";
 import useElementsStorage from "../customHooks/useElementsStorage";
@@ -13,6 +13,8 @@ const CustomModal = (props) => {
   const [submitted, setSubmitted] = useState(false);
 
   const [elements, setElement] = useElementsStorage();
+
+  const textRef = useRef();
 
   function clearValues() {
     setText("");
@@ -35,6 +37,7 @@ const CustomModal = (props) => {
 
       element.id = `addedElement${Date.now()}`;
       element.className = "added-element";
+      element.dataset.type = "addedElement";
       if (name.toUpperCase() === "INPUT") {
         element.placeholder = text;
       } else {
@@ -46,11 +49,7 @@ const CustomModal = (props) => {
       element.style.fontWeight = fontWeight;
       element.draggable = true;
 
-      // add drag start event listener to enable drag after creation as well
-      element.ondragstart = function (e) {
-        handleElementDragStart(e, element);
-      };
-
+      // empty the modal fields
       clearValues();
 
       setElement(element);
@@ -64,7 +63,13 @@ const CustomModal = (props) => {
 
   return (
     <>
-      <Modal show={show} onHide={handleHide} centered className="custom-modal">
+      <Modal
+        show={show}
+        onHide={handleHide}
+        centered
+        className="custom-modal"
+        onShow={() => textRef.current.focus()}
+      >
         <header>
           <h1>Edit {name}</h1>
           <CloseIcon onClick={() => closeFunc(false)} />
@@ -78,7 +83,7 @@ const CustomModal = (props) => {
                   type="text"
                   value={text}
                   onChange={(e) => setText(e.target.value)}
-                  autoFocus
+                  ref={textRef}
                 />
               </label>
               {submitted && !text && <p>Please enter text</p>}

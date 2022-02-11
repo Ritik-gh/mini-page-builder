@@ -134,6 +134,7 @@ button.active {
   position: absolute;
 }
 
-.added-element:focus {
-  outline: 1px solid var(--bs-red);
+.added-element.focus {
+  outline: 2px solid var(--bs-red);
+  outline-offset: 8px;
 }
