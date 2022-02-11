@@ -16,6 +16,7 @@
   flex-flow: column nowrap;
   align-items: stretch;
   padding: 24px;
+  z-index: 1;
 }
 
 .app > aside > section {

@@ -5,14 +5,26 @@ import useElementsStorage from "../customHooks/useElementsStorage";
 import { handleElementDragStart } from "../helper";
 
 const CustomModal = (props) => {
-  const { show, toggleFunc, name, x, y, setX, setY } = props;
+  const {
+    show,
+    toggleFunc,
+    name,
+    x,
+    y,
+    text,
+    fontSize,
+    fontWeight,
+    setX,
+    setY,
+    setText,
+    setFontSize,
+    setFontWeight,
+    updateId,
+  } = props;
 
-  const [text, setText] = useState("");
-  const [fontSize, setFontSize] = useState("");
-  const [fontWeight, setFontWeight] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const [elements, setElement] = useElementsStorage();
+  const [elements, setElement, deleteElement] = useElementsStorage();
 
   const textRef = useRef();
 
@@ -28,39 +40,45 @@ const CustomModal = (props) => {
     toggleFunc(false);
   }
 
+  function fillElementValues(element) {
+    if (name.toUpperCase() === "INPUT") {
+      element.placeholder = text;
+    } else {
+      element.innerText = text;
+    }
+    element.style.left = x + "px";
+    element.style.top = y + "px";
+    element.style.fontSize = fontSize + "px";
+    element.style.fontWeight = fontWeight;
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     setSubmitted(true);
     if (text && x && y && fontSize && fontWeight) {
-      const element = document.createElement(name);
-      const main = document.querySelector("main");
-
-      element.id = `addedElement${Date.now()}`;
-      element.className = "added-element";
-      element.dataset.type = "addedElement";
-      if (name.toUpperCase() === "INPUT") {
-        element.placeholder = text;
+      if (!updateId) {
+        const element = document.createElement(name);
+        const main = document.querySelector("main");
+        element.id = `addedElement${Date.now()}`;
+        element.className = "added-element";
+        element.dataset.type = "addedElement";
+        element.draggable = true;
+        // add drag start event listener to enable drag after creation as well
+        element.ondragstart = function (e) {
+          handleElementDragStart(e, element);
+        };
+        fillElementValues(element);
+        // empty the modal fields
+        clearValues();
+        // add the element to the droppped position
+        main.appendChild(element);
+        setElement(element);
       } else {
-        element.innerText = text;
+        const elementToBeUpdated = document.querySelector(`#${updateId}`);
+        fillElementValues(elementToBeUpdated);
+        setElement(elementToBeUpdated);
       }
-      element.style.left = x + "px";
-      element.style.top = y + "px";
-      element.style.fontSize = fontSize;
-      element.style.fontWeight = fontWeight;
-      element.draggable = true;
 
-      // empty the modal fields
-      clearValues();
-
-      // add drag start event listener to enable drag after creation as well
-      element.ondragstart = function (e) {
-        handleElementDragStart(e, element);
-      };
-
-      setElement(element);
-
-      // add the element to the droppped position
-      main.appendChild(element);
       toggleFunc(false);
       setSubmitted(false);
     }
@@ -80,7 +98,7 @@ const CustomModal = (props) => {
           <CloseIcon onClick={() => toggleFunc(false)} />
         </header>
         <main>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} onKeyUp={(e) => e.stopPropagation()}>
             <article>
               <label>
                 Text

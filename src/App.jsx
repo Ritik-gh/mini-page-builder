@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import ReactDOM from "react-dom";
 
 import CustomModal from "./components/CustomModal";
@@ -12,6 +12,10 @@ function App() {
   const [name, setName] = useState("");
   const [x, setX] = useState("");
   const [y, setY] = useState("");
+  const [text, setText] = useState("");
+  const [fontSize, setFontSize] = useState("");
+  const [fontWeight, setFontWeight] = useState("");
+  const [updateId, setUpdateId] = useState("");
 
   const [elements, setElement, deleteElement] = useElementsStorage();
 
@@ -34,9 +38,13 @@ function App() {
       console.log(e.dataTransfer.getData("type"), e.x, e.y);
       const elementType = e.dataTransfer.getData("type");
       if (elementType === "elementBlock") {
+        setText("");
         setName(e.dataTransfer.getData("element"));
         setX(e.x);
         setY(e.y);
+        setFontSize("");
+        setFontWeight("");
+        setUpdateId("");
         setShowModal(true);
       } else if (elementType === "addedElement") {
         const id = e.dataTransfer.getData("id");
@@ -68,7 +76,36 @@ function App() {
       const focusedElement = document.querySelector(".added-element.focus");
       if (focusedElement) {
         if (e.key === "Enter") {
-          console.log("Enter pressed");
+          setUpdateId(focusedElement.id);
+          setName(
+            focusedElement.nodeName[0] +
+              focusedElement.nodeName.slice(1).toLowerCase()
+          );
+          setX(
+            focusedElement.style.left.slice(
+              0,
+              focusedElement.style.left.length - 2
+            )
+          );
+          setY(
+            focusedElement.style.top.slice(
+              0,
+              focusedElement.style.top.length - 2
+            )
+          );
+          setFontSize(
+            focusedElement.style.fontSize.slice(
+              0,
+              focusedElement.style.fontSize.length - 2
+            )
+          );
+          setFontWeight(focusedElement.style.fontWeight);
+          if (focusedElement.nodeName === "INPUT") {
+            setText(focusedElement.placeholder);
+          } else {
+            setText(focusedElement.innerText);
+          }
+          setShowModal(true);
         } else if (e.key === "Delete") {
           console.log("delete pressed");
           deleteElement(focusedElement);
@@ -108,8 +145,15 @@ function App() {
         name={name}
         x={x}
         y={y}
+        text={text}
+        fontSize={fontSize}
+        fontWeight={fontWeight}
         setX={setX}
         setY={setY}
+        setText={setText}
+        setFontSize={setFontSize}
+        setFontWeight={setFontWeight}
+        updateId={updateId}
       />
       <div className="app">
         <main
