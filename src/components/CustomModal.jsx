@@ -52,6 +52,11 @@ const CustomModal = (props) => {
       // empty the modal fields
       clearValues();
 
+      // add drag start event listener to enable drag after creation as well
+      element.ondragstart = function (e) {
+        handleElementDragStart(e, element);
+      };
+
       setElement(element);
 
       // add the element to the droppped position
